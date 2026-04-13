@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   HV_VOLTAGE_OPTIONS,
   LV_VOLTAGE_OPTIONS,
@@ -123,6 +124,31 @@ export default function ResultsCard({
         `${padLabel("Total Z")} : ${result.Ztot_pu.toFixed(4)} pu`,
       ].join("\n")
     : "";
+  useEffect(() => {
+  function handleKeyDown(e) {
+    // Ignore if user is typing in input/select/textarea
+    const tag = e.target.tagName.toLowerCase();
+    if (tag === "textarea") return;
+
+    if (e.key === "Enter" || e.key === "ArrowRight") {
+      if (step < 3 && canProceed) {
+        e.preventDefault();
+        setStep(step + 1);
+      }
+    }
+
+    if (e.key === "ArrowLeft") {
+      if (step > 1) {
+        e.preventDefault();
+        setStep(step - 1);
+      }
+    }
+  }
+
+  window.addEventListener("keydown", handleKeyDown);
+  return () => window.removeEventListener("keydown", handleKeyDown);
+}, [step, canProceed, setStep]);
+  
 
   return (
     <section className="glass-card p-4 sm:p-5">
