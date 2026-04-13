@@ -29,11 +29,7 @@ function CheckboxCard({ label, checked, onChange, note }) {
           />
           <span>{label}</span>
         </label>
-
-        {/* ✅ FIXED Kt rendering (HTML subscript) */}
-        <span className="text-sm font-mono text-slate-300">
-          {note}
-        </span>
+        <span className="text-sm font-mono text-slate-300">{note}</span>
       </div>
     </div>
   );
@@ -140,9 +136,27 @@ export default function ResultsCard({
       </div>
 
       <div className="mb-4 flex items-center gap-2">
-        <div className={step >= 1 ? "h-2 flex-1 rounded-full bg-cyan-400" : "h-2 flex-1 rounded-full bg-white/10"} />
-        <div className={step >= 2 ? "h-2 flex-1 rounded-full bg-cyan-400" : "h-2 flex-1 rounded-full bg-white/10"} />
-        <div className={step >= 3 ? "h-2 flex-1 rounded-full bg-cyan-400" : "h-2 flex-1 rounded-full bg-white/10"} />
+        <div
+          className={
+            step >= 1
+              ? "h-2 flex-1 rounded-full bg-cyan-400"
+              : "h-2 flex-1 rounded-full bg-white/10"
+          }
+        />
+        <div
+          className={
+            step >= 2
+              ? "h-2 flex-1 rounded-full bg-cyan-400"
+              : "h-2 flex-1 rounded-full bg-white/10"
+          }
+        />
+        <div
+          className={
+            step >= 3
+              ? "h-2 flex-1 rounded-full bg-cyan-400"
+              : "h-2 flex-1 rounded-full bg-white/10"
+          }
+        />
       </div>
 
       <div className="mb-5 text-sm font-medium text-slate-300">
@@ -151,32 +165,128 @@ export default function ResultsCard({
         {step === 3 && "Step 3 of 3 : Results Summary"}
       </div>
 
-      {error && (
+      {error ? (
         <div className="mb-4 rounded-2xl border border-orange-400/40 bg-orange-500/10 px-3 py-2 text-sm font-semibold text-orange-200">
           {error}
+        </div>
+      ) : null}
+
+      {step === 1 && (
+        <div className="flex flex-col gap-3 sm:gap-4">
+          <FieldCard label="Grid Voltage" unit="kV">
+            <select
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
+              value={values.gridKV}
+              onChange={(e) => updateField("gridKV", e.target.value)}
+            >
+              {HV_VOLTAGE_OPTIONS.map((v) => (
+                <option
+                  key={v.value}
+                  value={v.value}
+                  className="bg-slate-900 text-white"
+                >
+                  {v.label}
+                </option>
+              ))}
+            </select>
+          </FieldCard>
+
+          <FieldCard label="Grid Fault Level" unit="kA">
+            <input
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
+              type="number"
+              step="any"
+              value={values.gridKA}
+              onChange={(e) => updateField("gridKA", e.target.value)}
+            />
+          </FieldCard>
+
+          <FieldCard label="C-Factor" unit="">
+            <select
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
+              value={values.cFactor}
+              onChange={(e) => updateField("cFactor", e.target.value)}
+            >
+              {C_FACTOR_OPTIONS.map((v) => (
+                <option
+                  key={v.value}
+                  value={v.value}
+                  className="bg-slate-900 text-white"
+                >
+                  {v.label}
+                </option>
+              ))}
+            </select>
+          </FieldCard>
+
+          <FieldCard label="X/R" unit="">
+            <input
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
+              type="number"
+              step="any"
+              value={values.gridXR}
+              onChange={(e) => updateField("gridXR", e.target.value)}
+            />
+          </FieldCard>
         </div>
       )}
 
       {step === 2 && (
         <div className="flex flex-col gap-3 sm:gap-4">
           <FieldCard label="Transformer Rating" unit="MVA">
-            <input className="input-inline w-[6.5rem]" value={values.txMVA} onChange={(e)=>updateField("txMVA",e.target.value)} />
+            <input
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
+              type="number"
+              step="any"
+              value={values.txMVA}
+              onChange={(e) => updateField("txMVA", e.target.value)}
+            />
           </FieldCard>
 
           <FieldCard label="Transformer HV" unit="kV">
-            <select className="input-inline w-[6.5rem]" value={values.txHV} onChange={(e)=>updateField("txHV",e.target.value)}>
-              {HV_VOLTAGE_OPTIONS.map(v => <option key={v.value} value={v.value}>{v.label}</option>)}
+            <select
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
+              value={values.txHV}
+              onChange={(e) => updateField("txHV", e.target.value)}
+            >
+              {HV_VOLTAGE_OPTIONS.map((v) => (
+                <option
+                  key={v.value}
+                  value={v.value}
+                  className="bg-slate-900 text-white"
+                >
+                  {v.label}
+                </option>
+              ))}
             </select>
           </FieldCard>
 
           <FieldCard label="Transformer LV" unit="kV">
-            <select className="input-inline w-[6.5rem]" value={values.txLV} onChange={(e)=>updateField("txLV",e.target.value)}>
-              {LV_VOLTAGE_OPTIONS.map(v => <option key={v.value} value={v.value}>{v.label}</option>)}
+            <select
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
+              value={values.txLV}
+              onChange={(e) => updateField("txLV", e.target.value)}
+            >
+              {LV_VOLTAGE_OPTIONS.map((v) => (
+                <option
+                  key={v.value}
+                  value={v.value}
+                  className="bg-slate-900 text-white"
+                >
+                  {v.label}
+                </option>
+              ))}
             </select>
           </FieldCard>
 
           <FieldCard label="Transformer Z" unit="%">
-            <input className="input-inline w-[6.5rem]" value={values.txZ} onChange={(e)=>updateField("txZ",e.target.value)} />
+            <input
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
+              type="number"
+              step="any"
+              value={values.txZ}
+              onChange={(e) => updateField("txZ", e.target.value)}
+            />
           </FieldCard>
 
           <CheckboxCard
@@ -192,31 +302,67 @@ export default function ResultsCard({
         </div>
       )}
 
-      {step === 3 && result && (
+      {step === 3 && (
         <div className="flex flex-col gap-4">
-          <div className="flex justify-start">
-            <ResultTile label="LV Fault Current" value={`${result.IF_max.toFixed(2)} kA`} highlight compact />
-          </div>
+          {result ? (
+            <>
+              <div className="flex justify-start">
+                <ResultTile
+                  label="LV Fault Current"
+                  value={`${result.IF_max.toFixed(2)} kA`}
+                  highlight
+                  compact
+                />
+              </div>
 
-          <div className="divider" />
+              <div className="divider" />
 
-          <textarea
-            readOnly
-            value={summaryText}
-            rows={15}
-            className="w-full rounded-2xl border border-white/10 bg-black/25 px-4 py-4 font-mono text-xs leading-5 text-slate-100"
-          />
+              <textarea
+                readOnly
+                value={summaryText}
+                rows={15}
+                className="w-full resize-y rounded-2xl border border-white/10 bg-black/25 px-4 py-4 font-mono text-xs leading-5 text-slate-100 outline-none"
+              />
+            </>
+          ) : (
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-slate-300">
+              Enter valid positive values. Transformer LV must stay lower than
+              Transformer HV.
+            </div>
+          )}
         </div>
       )}
 
       <div className="divider" />
 
-      <div className="mt-2 flex justify-center gap-4">
-        {step > 1 && <button onClick={handleBack} className="btn">Back</button>}
+      <div className="mt-2 flex items-center justify-center gap-4">
+        {step > 1 && (
+          <button
+            type="button"
+            onClick={handleBack}
+            className="rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
+          >
+            Back
+          </button>
+        )}
+
         {step < 3 ? (
-          <button onClick={handleNext} className="btn-primary">Next</button>
+          <button
+            type="button"
+            onClick={handleNext}
+            disabled={!canProceed}
+            className="rounded-2xl bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Next
+          </button>
         ) : (
-          <button onClick={onReset} className="btn-primary">Reset</button>
+          <button
+            type="button"
+            onClick={onReset}
+            className="rounded-2xl bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+          >
+            Reset
+          </button>
         )}
       </div>
     </section>
