@@ -3,5 +3,5 @@ import {defineConfig} from 'vite';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/IEC60909_Fault-Calc/',
+  base: '/IEC_SC-Calculator-1/',
 });
