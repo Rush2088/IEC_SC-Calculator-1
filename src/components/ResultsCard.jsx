@@ -9,8 +9,10 @@ function FieldCard({ label, unit, children }) {
   return (
     <div className="summary-chip">
       <div className="summary-label">{label}</div>
-      <div className="summary-input-wrap">{children}</div>
-      <span className="unit-base">{unit}</span>
+      <div className="flex items-center justify-between gap-3">
+        <div className="summary-input-wrap flex-none">{children}</div>
+        <span className="unit-base shrink-0">{unit}</span>
+      </div>
     </div>
   );
 }
@@ -27,9 +29,7 @@ function CheckboxCard({ label, checked, onChange, note }) {
           />
           <span>{label}</span>
         </label>
-        <span className="text-sm font-mono text-slate-300">
-          {note}
-        </span>
+        <span className="text-sm font-mono text-slate-300">{note}</span>
       </div>
     </div>
   );
@@ -99,7 +99,7 @@ export default function ResultsCard({
     }
   }
 
-  const padLabel = (label, width = 33) => label.padEnd(width, " ");
+  const padLabel = (label, width = 26) => label.padEnd(width, " ");
 
   const summaryText = result
     ? [
@@ -110,15 +110,17 @@ export default function ResultsCard({
         `${padLabel("Transformer Rating")} : ${values.txMVA} MVA`,
         `${padLabel("Transformer HV")} : ${values.txHV} kV`,
         `${padLabel("Transformer LV")} : ${values.txLV} kV`,
-        `${padLabel("Transformer Impedance")} : ${values.txZ} %`,
-        `${padLabel("Consider Transformer K-Factor")} : ${
+        `${padLabel("Transformer Z")} : ${values.txZ} %`,
+        `${padLabel("Consider K-Factor")} : ${
           values.considerKFactor ? "Yes" : "No"
         }`,
         `${padLabel("Calculated K_T")} : ${kTDisplay}`,
         `${padLabel("Applied K_T")} : ${appliedKtDisplay}`,
-        `${padLabel("Grid Z (100 MVA Base)")} : ${result.Z_grid_mag_pu.toFixed(4)} pu`,
-        `${padLabel("Transformer Z (100 MVA Base)")} : ${result.Z_TX_pu.toFixed(4)} pu`,
-        `${padLabel("Total Z (100 MVA Base)")} : ${result.Ztot_pu.toFixed(4)} pu`,
+        ``,
+        `Impedances on 100 MVA Base`,
+        `${padLabel("Grid Z")} : ${result.Z_grid_mag_pu.toFixed(4)} pu`,
+        `${padLabel("Transformer Z")} : ${result.Z_TX_pu.toFixed(4)} pu`,
+        `${padLabel("Total Z")} : ${result.Ztot_pu.toFixed(4)} pu`,
       ].join("\n")
     : "";
 
@@ -173,7 +175,7 @@ export default function ResultsCard({
         <div className="flex flex-col gap-3 sm:gap-4">
           <FieldCard label="Grid Voltage" unit="kV">
             <select
-              className="input-inline"
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
               value={values.gridKV}
               onChange={(e) => updateField("gridKV", e.target.value)}
             >
@@ -191,7 +193,7 @@ export default function ResultsCard({
 
           <FieldCard label="Grid Fault Level" unit="kA">
             <input
-              className="input-inline"
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
               type="number"
               step="any"
               value={values.gridKA}
@@ -201,7 +203,7 @@ export default function ResultsCard({
 
           <FieldCard label="C-Factor" unit="">
             <select
-              className="input-inline"
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
               value={values.cFactor}
               onChange={(e) => updateField("cFactor", e.target.value)}
             >
@@ -219,7 +221,7 @@ export default function ResultsCard({
 
           <FieldCard label="X/R" unit="">
             <input
-              className="input-inline"
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
               type="number"
               step="any"
               value={values.gridXR}
@@ -233,7 +235,7 @@ export default function ResultsCard({
         <div className="flex flex-col gap-3 sm:gap-4">
           <FieldCard label="Transformer Rating" unit="MVA">
             <input
-              className="input-inline"
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
               type="number"
               step="any"
               value={values.txMVA}
@@ -243,7 +245,7 @@ export default function ResultsCard({
 
           <FieldCard label="Transformer HV" unit="kV">
             <select
-              className="input-inline"
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
               value={values.txHV}
               onChange={(e) => updateField("txHV", e.target.value)}
             >
@@ -261,7 +263,7 @@ export default function ResultsCard({
 
           <FieldCard label="Transformer LV" unit="kV">
             <select
-              className="input-inline"
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
               value={values.txLV}
               onChange={(e) => updateField("txLV", e.target.value)}
             >
@@ -277,9 +279,9 @@ export default function ResultsCard({
             </select>
           </FieldCard>
 
-          <FieldCard label="Transformer Impedance" unit="%">
+          <FieldCard label="Transformer Z" unit="%">
             <input
-              className="input-inline"
+              className="input-inline w-[6.5rem] sm:w-[7rem]"
               type="number"
               step="any"
               value={values.txZ}
@@ -314,8 +316,8 @@ export default function ResultsCard({
               <textarea
                 readOnly
                 value={summaryText}
-                rows={14}
-                className="w-full resize-y rounded-2xl border border-white/10 bg-black/25 px-5 py-4 font-mono text-xs leading-5 text-slate-100 outline-none"
+                rows={15}
+                className="w-full resize-y rounded-2xl border border-white/10 bg-black/25 px-4 py-4 font-mono text-xs leading-5 text-slate-100 outline-none"
               />
             </>
           ) : (
